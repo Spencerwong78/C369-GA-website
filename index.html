@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <style>
@@ -87,6 +87,10 @@
             document.getElementById('username').textContent = currentUser;
             document.getElementById('acc-no').textContent = `Acc No: ${user.accNo}`;
             document.getElementById('account-balance').textContent = user.balances.main.toLocaleString() + ' SGD';
+            document.getElementById('mastercard-balance').textContent = user.cardBalances.mastercard.toLocaleString() + ' SGD';
+            document.getElementById('uob-balance').textContent = user.cardBalances.uob.toLocaleString() + ' SGD';
+            document.getElementById('dbs-balance').textContent = user.cardBalances.dbs.toLocaleString() + ' SGD';
+            document.getElementById('ocbc-balance').textContent = user.cardBalances.ocbc.toLocaleString() + ' SGD';
         }
         
         window.onload = loadDashboard;
@@ -103,6 +107,22 @@
         <h2 id="acc-no">Acc No: 123456</h2>
         <p>available to spend</p>
         <h2 id="account-balance">32,450,000 SGD</h2>
+    </div>
+    <div class="account-info">
+        <h2>Mastercard Balance</h2>
+        <p id="mastercard-balance">0 SGD</p>
+    </div>
+    <div class="account-info">
+        <h2>UOB Balance</h2>
+        <p id="uob-balance">0 SGD</p>
+    </div>
+    <div class="account-info">
+        <h2>DBS Balance</h2>
+        <p id="dbs-balance">0 SGD</p>
+    </div>
+    <div class="account-info">
+        <h2>OCBC Balance</h2>
+        <p id="ocbc-balance">0 SGD</p>
     </div>
     <div class="services">
         <div class="service" onclick="window.location.href='spend-account.html'">
@@ -123,6 +143,7 @@
     </div>
 </body>
 </html>
+
 
 
 
