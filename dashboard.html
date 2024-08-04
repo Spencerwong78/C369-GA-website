@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #4e5da5;
+            margin: 0;
+            padding: 20px;
+            color: white;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .account-info {
+            background-color: #3b4b91;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .account-info h2 {
+            margin: 10px 0;
+        }
+        .services {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .service {
+            background-color: #3b4b91;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 48%;
+            cursor: pointer;
+        }
+        .advice-button, .top-up-button, .balances-button {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .advice-button button, .top-up-button button, .balances-button button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 20px;
+            background-color: #ffffff;
+            color: #4e5da5;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .logout-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            background-color: #ffffff;
+            color: #4e5da5;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'login.html';
+        }
+        
+        function loadDashboard() {
+            const currentUser = localStorage.getItem('currentUser');
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+            const users = JSON.parse(localStorage.getItem('users'));
+            const user = users[currentUser];
+
+            document.getElementById('username').textContent = currentUser;
+            document.getElementById('acc-no').textContent = `Acc No: ${user.accNo}`;
+            document.getElementById('account-balance').textContent = user.balances.main.toLocaleString() + ' SGD';
+        }
+        
+        window.onload = loadDashboard;
+    </script>
+</head>
+<body>
+    <div class="header">
+        <h1 id="username">Username</h1>
+        <div>
+            <button class="logout-button" onclick="logout()">Logout</button>
+        </div>
+    </div>
+    <div class="account-info">
+        <h2 id="acc-no">Acc No: 123456</h2>
+        <p>available to spend</p>
+        <h2 id="account-balance">32,450,000 SGD</h2>
+    </div>
+    <div class="services">
+        <div class="service" onclick="window.location.href='spend-account.html'">
+            <h3>PayNow</h3>
+        </div>
+        <div class="service" onclick="window.location.href='card-services.html'">
+            <h3>Card Services</h3>
+        </div>
+    </div>
+    <div class="balances-button">
+        <button onclick="window.location.href='balances.html'">View Balances</button>
+    </div>
+    <div class="advice-button">
+        <button onclick="window.location.href='financial-advice.html'">Get Financial Advice</button>
+    </div>
+    <div class="top-up-button">
+        <button onclick="window.location.href='top-up.html'">Top Up</button>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

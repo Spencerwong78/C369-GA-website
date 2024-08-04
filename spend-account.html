@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spend Account</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #4e5da5;
+            margin: 0;
+            padding: 20px;
+            color: white;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding-top: 50px;
+        }
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 20px;
+            background-color: #ffffff;
+            color: #4e5da5;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        function saveRecipientInfo() {
+            const name = document.getElementById('name').value;
+            const amount = document.getElementById('amount').value;
+            const comments = document.getElementById('comments').value;
+            
+            localStorage.setItem('recipientName', name);
+            localStorage.setItem('amount', amount);
+            localStorage.setItem('comments', comments);
+
+            window.location.href = 'confirm.html';
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>PayNow</h1>
+        </div>
+        <form onsubmit="event.preventDefault(); saveRecipientInfo();">
+            <label for="name">Name/Mobile no.</label>
+            <input type="text" id="name" required>
+            
+            <label for="amount">Amount (SGD)</label>
+            <input type="number" id="amount" required>
+            
+            <label for="comments">Comments (optional)</label>
+            <textarea id="comments" rows="4"></textarea>
+            
+            <button type="submit">Next</button>
+        </form>
+    </div>
+</body>
+</html>
+
+
+
+

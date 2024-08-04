@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Transaction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #4e5da5;
+            margin: 0;
+            padding: 20px;
+            color: white;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .info {
+            background-color: #3b4b91;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .info p {
+            margin: 5px 0;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 20px;
+            background-color: #ffffff;
+            color: #4e5da5;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        /* Modal styles */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgb(0,0,0); 
+            background-color: rgba(0,0,0,0.4); 
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px; /* Smaller width for the modal */
+            text-align: center; /* Center align the content */
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        /* Centering the input field */
+        #2faCode {
+            width: 80%; /* Smaller width for the input */
+            margin: 20px auto; /* Margin to center the input */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+    <script>
+        function loadRecipientInfo() {
+            const name = localStorage.getItem('recipientName');
+            const amount = localStorage.getItem('amount');
+            const comments = localStorage.getItem('comments');
+            
+            document.getElementById('recipient-name').textContent = name;
+            document.getElementById('amount').textContent = amount + " SGD";
+            document.getElementById('comments').textContent = comments;
+        }
+        
+        function confirmTransaction() {
+            document.getElementById('2faModal').style.display = 'block';
+        }
+        
+        function submit2FA() {
+            const code = document.getElementById('2faCode').value;
+            const currentUser = localStorage.getItem('currentUser');
+            const users = JSON.parse(localStorage.getItem('users'));
+            const amount = parseFloat(localStorage.getItem('amount'));
+            const recipientName = localStorage.getItem('recipientName');
+
+            if (code && currentUser && users[currentUser]) {
+                users[currentUser].balances.main -= amount;
+
+                // Store transaction details
+                const date = new Date().toLocaleString();
+                users[currentUser].transactions.push({ date: date, details: `Sent ${amount} SGD to ${recipientName}` });
+
+                localStorage.setItem('users', JSON.stringify(users));
+
+                alert('2FA code submitted: ' + code);
+                document.getElementById('2faModal').style.display = 'none';
+                window.location.href = 'success.html';
+            } else {
+                alert('Please enter the 2FA code.');
+            }
+        }
+        
+        window.onload = loadRecipientInfo;
+        
+        // When the user clicks on <span> (x), close the modal
+        function closeModal() {
+            document.getElementById('2faModal').style.display = 'none';
+        }
+        
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            const modal = document.getElementById('2faModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Confirm Transaction</h1>
+        </div>
+        <div class="info">
+            <p><strong>Recipient Name/Mobile:</strong> <span id="recipient-name"></span></p>
+            <p><strong>Amount:</strong> <span id="amount"></span></p>
+            <p><strong>Comments:</strong> <span id="comments"></span></p>
+        </div>
+        <button onclick="confirmTransaction()">Confirm</button>
+    </div>
+    
+    <!-- 2FA Modal -->
+    <div id="2faModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Two-Factor Authentication</h2>
+            <p>Please enter the 2FA code sent to your device:</p>
+            <input type="text" id="2faCode" placeholder="Enter 2FA code">
+            <button onclick="submit2FA()">Submit</button>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+

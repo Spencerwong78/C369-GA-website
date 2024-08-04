@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Advice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #4e5da5;
+            margin: 0;
+            padding: 20px;
+            color: white;
+        }
+        .header {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .advice {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .advice-column {
+            background-color: #3b4b91;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 30%;
+        }
+        .back-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            background-color: #ffffff;
+            color: #4e5da5;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function goBack() {
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+</head>
+<body>
+    <div class="header">
+        <h1>Financial Advice</h1>
+        <button class="back-button" onclick="goBack()">Back to Dashboard</button>
+    </div>
+    <div class="advice">
+        <div class="advice-column">
+            <h3>Spend less than you earn, save & invest the rest</h3>
+            <p>Want to learn more? Click here!</p>
+        </div>
+        <div class="advice-column">
+            <h3>Diversify investments, avoid emotional decisions</h3>
+            <p>Want to learn more? Click here!</p>
+        </div>
+        <div class="advice-column">
+            <h3>Build an emergency fund, plan for future expenses</h3>
+            <p>Want to learn more? Click here!</p>
+        </div>
+    </div>
+</body>
+</html>
+
+
