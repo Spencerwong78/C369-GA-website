@@ -20,6 +20,22 @@
             padding: 20px;
             border-radius: 10px;
         }
+        .top-up-option {
+            display: block;
+            margin: 20px 0;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 20px;
+            background-color: #ffffff;
+            color: #4e5da5;
+            font-size: 18px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .amount-input {
+            display: none;
+            margin: 20px 0;
+        }
         input[type="number"] {
             width: 80%;
             padding: 10px;
@@ -40,21 +56,28 @@
         }
     </style>
     <script>
+        function selectTopUpOption(option) {
+            document.getElementById('top-up-options').style.display = 'none';
+            document.getElementById('amount-input').style.display = 'block';
+            localStorage.setItem('topUpOption', option);
+        }
+
         function confirmTopUp() {
             const amount = parseFloat(document.getElementById('topUpAmount').value);
             const currentUser = localStorage.getItem('currentUser');
             const users = JSON.parse(localStorage.getItem('users'));
 
             if (amount && currentUser && users[currentUser]) {
-                users[currentUser].balances.main += amount;
+                const option = localStorage.getItem('topUpOption');
+                users[currentUser].cardBalances[option] += amount;
 
                 // Store transaction details
                 const date = new Date().toLocaleString();
-                users[currentUser].transactions.push({ date: date, details: `Topped up ${amount} SGD to available to spend` });
+                users[currentUser].transactions.push({ date: date, details: `Topped up ${amount} SGD to ${option}` });
 
                 localStorage.setItem('users', JSON.stringify(users));
 
-                alert('Amount ' + amount + ' SGD has been added to your available to spend balance.');
+                alert('Amount ' + amount + ' SGD has been added to your ' + option + ' balance.');
                 window.location.href = 'success.html';
             } else {
                 alert('Please enter an amount.');
@@ -65,13 +88,20 @@
 <body>
     <div class="container">
         <h1>Top Up</h1>
-        <div id="amount-input">
+        <div id="top-up-options">
+            <button class="top-up-option" onclick="selectTopUpOption('mastercard')">Mastercard Balance</button>
+            <button class="top-up-option" onclick="selectTopUpOption('uob')">UOB Balance</button>
+            <button class="top-up-option" onclick="selectTopUpOption('dbs')">DBS Balance</button>
+            <button class="top-up-option" onclick="selectTopUpOption('ocbc')">OCBC Balance</button>
+        </div>
+        <div id="amount-input" class="amount-input">
             <input type="number" id="topUpAmount" placeholder="Enter amount in SGD">
             <button onclick="confirmTopUp()">Confirm</button>
         </div>
     </div>
 </body>
 </html>
+
 
 
 
